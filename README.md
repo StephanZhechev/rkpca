@@ -37,7 +37,7 @@ Here the mathematics is a bit less intuitive on a first glance. Informally, give
 1. Compute the partial kernel matrix with one row for each data point in the original set and one column for each data point in the subset.
 1. Modify the kernel matrix as if it were representing centered data in feature space.
 
-![Uploading 4.jpg…]()
+![4](https://user-images.githubusercontent.com/69961386/131490935-5aad4d04-819e-4726-a759-d675b98433da.jpg)
 
 where ```1_M``` is a matrix with all elements equal to ```1/m```.
 
