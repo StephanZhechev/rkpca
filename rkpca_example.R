@@ -43,19 +43,9 @@ rkpca <- Randomized_kpca$new(
   kernel_order = 1
 )
 
-rkpca <- Randomized_kpca$new(
-  subsample_size = 50,
-  randomization_type = "nystrom",
-  num_components = 2,
-  kernel = "rbfdot",
-  kernel_degree = 3,
-  kernel_sigma = NA,
-  kernel_offset = 1,
-  kernel_scale = 1,
-  kernel_order = 1
-)
 
 
+# A vector of labels can be passed for balanced sampling when using the Nyström method.
 sampling_labels <- TRUE
 if (sampling_labels) {
   
