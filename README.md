@@ -51,6 +51,70 @@ where ```1_M``` is a matrix with all elements equal to ```1/m```.
 1. Compute a truncated SVD for the kernel matrix of the subset of the samples.
 1. Output the final transformation.
 
+# Usage
+
+The main code is packaged into an ```R6``` class.
+
+1. Initialization with the desired attributes. The full documentation can be found in docstrings in the code. Here we provide brief explanations.
+
+    * ```subsample_size``` is self-explanatory.
+    * ```randomization_type``` can be ```nystrom``` or ```fourier```.
+    * ```num_components``` controls for the number of principal components to be produced. The implementation makes use of an algorithm
+      for truncated SVD, so setting this to the desired number rather than computing many components and subsetting, will definitely cut on computational costs.
+    * ```kernel``` can be any kernel from the ```kernlab``` library. If ```randomization_type == "fourier"```, only ```rbfdot``` is supported, while
+       ```randomization_type == "nystrom"``` supports all the kernels implemented in ```kernlab```.
+    * The other arguments control the selected kernel. Only the necessary will be used by the functions later on. For more information, see the [kernlab documentation](https://cran.r-project.org/web/packages/kernlab/kernlab.pdf).
+    * If not ```kernel_sigma``` is passed to the constructor, the standard deviation will later be automatically estimated from the data used to fit a randomized kernel PCA using the ```kernlab::sigest``` function.
+
+
+```
+rkpca <- Randomized_kpca$new(
+  subsample_size = 50,
+  randomization_type = "nystrom",
+  num_components = 2,
+  kernel = "rbfdot",
+  kernel_degree = 3,
+  kernel_sigma = NA,
+  kernel_offset = 1,
+  kernel_scale = 1,
+  kernel_order = 1
+)
+```
+
+1. Fit a randomized kernel PCA on a given data frame or matrix. The ```rpca_fit()``` method works does not take a formula as an argument. That means that the kernel PCA will be estimated for all the columns that are passed.
+
+    * ```data``` should ideally be a data frame but any object coercible to a matrix should do.
+    * ```labels``` is an optional argument that can take a vector of labels of length ```nrow(data)```, that will be used for balanced subsetting if the Nyström method is selected. Passing labels when using random Fourier features does not affect the model, which will also be announced in a warning.
+
+```
+fitted <- rkpca$rpca_fit(
+    data = input_data,
+    labels = label_vector
+  )
+```
+
+1. Predict from a fitted randomized kernel PCA object and new data.
+ 
+    * ```rpca``` should be an object produced by the ```rpca_fit()``` method.
+    * ```newdata``` is new data to be projected onto the principal components. It must have the same number of columns as the original data, ideally with the same names.
+
+
+```
+  predicted <- rkpca$rpca_predict(
+    rpca = fitted,
+    newdata = some_new_data
+  )
+```
+
+
+# Performance
+
+This code was run on a laptop with the i5-8265U CPU @ 1.60GHz, 1800 Mhz, 4 Core(s), 8 Logical Processor(s) and 16GB of RAM.
+
+![image](https://user-images.githubusercontent.com/69961386/131563172-e9de4258-5a68-4af7-b4f9-19e8dcc1eac4.png)
+
+Running full kernel PCA on 100k rows would probably take more than 200GB of RAM and would be completely impossible on this laptop.
+
 # License...or something
 
 I wrote this code as part of my work for [DataScience Service GmbH](https://www.datascience-service.at/). However, the code is **completely open source** and comes with no waranty or anything. Feel free to use it for any purpose you like, make copies etc.
