@@ -51,6 +51,13 @@ where ```1_M``` is a matrix with all elements equal to ```1/m```.
 1. Compute a truncated SVD for the kernel matrix of the subset of the samples.
 1. Output the final transformation.
 
+# License...or something
+
+I wrote this code as part of my work for [DataScience Service GmbH](https://www.datascience-service.at/). However, the code is **completely open source** and comes with no waranty or anything. Feel free to use it for any purpose you like, make copies etc.
+
+# Bugs
+
+Please feel free to submit pull requests with bug and improvements.
 
 # References (in no particular order)
 
