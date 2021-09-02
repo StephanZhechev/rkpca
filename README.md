@@ -121,7 +121,7 @@ I wrote this code as part of my work for [DataScience Service GmbH](https://www.
 
 # Bugs
 
-Please feel free to submit pull requests with bug and improvements.
+Please feel free to submit pull requests with bug fixes and improvements.
 
 # References (in no particular order)
 
